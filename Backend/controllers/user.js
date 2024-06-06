@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-const validator = require("mongoose-unique-validator");
+const validator = require("validator"); // Importez validator
 
 exports.signup = (req, res, next) => {
   if (!req.body.email || !validator.isEmail(req.body.email)) {
@@ -29,27 +29,27 @@ exports.login = (req, res, next) => {
         return res
           .status(401)
           .json({ message: "Paire identifiant/mot de passe incorrecte" });
-      } else {
-        bcrypt
-          .compare(req.body.password, user.password)
-          .then((valid) => {
-            if (!valid) {
-              res
-                .status(401)
-                .json({ message: "Paire identifiant/mot de passe incorrecte" });
-            } else {
-              res.status(200).json({
-                userId: user._id,
-                token: jwt.sign({ userId: user._id }, "RANDOM_TOKEN_SECRET", {
-                  expiresIn: "24h",
-                }),
-              });
-            }
-          })
-          .catch((error) => {
-            res.status(500).json({ error });
-          });
       }
+      bcrypt
+        .compare(req.body.password, user.password)
+        .then((valid) => {
+          if (!valid) {
+            return res
+              .status(401)
+              .json({ message: "Paire identifiant/mot de passe incorrecte" });
+          }
+          // Générez un token JWT valide
+          const token = jwt.sign({ userId: user._id }, "RANDOM_TOKEN_SECRET", {
+            expiresIn: "24h",
+          });
+          res.status(200).json({
+            userId: user._id,
+            token: token,
+          });
+        })
+        .catch((error) => {
+          res.status(500).json({ error });
+        });
     })
     .catch((error) => res.status(500).json({ error }));
 };

@@ -30,7 +30,8 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
-app.use("api/card", cardRoutes);
-app.use("api/user", userRoutes);
+// Corrigez les chemins d'accès pour les routes
+app.use("/api/card", cardRoutes);
+app.use("/api/user", userRoutes); // Utilisez /api/user au lieu de api/user
 
 module.exports = app;

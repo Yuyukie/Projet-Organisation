@@ -1,5 +1,4 @@
-import ReactDOM from "react-dom";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -20,12 +19,13 @@ const LoginModal = () => {
   };
 
   const validateEmail = (email: string) => {
-    // Simple email validation regex
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
 
     let valid = true;
@@ -48,7 +48,7 @@ const LoginModal = () => {
     if (!valid) return;
 
     try {
-      const response = await fetch("http://localhost:5173/api/users", {
+      const response = await fetch("http://localhost:5173/api/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -68,7 +68,9 @@ const LoginModal = () => {
     }
   };
 
-  const handleCreate = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleCreate = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
 
     let valid = true;
@@ -91,7 +93,7 @@ const LoginModal = () => {
     if (!valid) return;
 
     try {
-      const response = await fetch("/api/users", {
+      const response = await fetch("http://localhost:5173/api/user/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -118,52 +120,50 @@ const LoginModal = () => {
           <Button onClick={openLoginModal}>Login</Button>
         </div>
       </div>
-      {modalOpen &&
-        ReactDOM.createPortal(
-          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 w-full h-full">
-            <form className="bg-white p-4 rounded">
-              <div className="grid w-full items-center gap-4">
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className={emailError ? "border-red-500" : ""}
-                  />
-                  {emailError && <p className="text-red-500">{emailError}</p>}
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="password">Password</Label>
-                  <Input
-                    id="password"
-                    placeholder="Password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className={passwordError ? "border-red-500" : ""}
-                  />
-                  {passwordError && (
-                    <p className="text-red-500">{passwordError}</p>
-                  )}
-                </div>
-                <div className="flex justify-between">
-                  <Button type="button" onClick={closeLoginModal}>
-                    Close
-                  </Button>
-                  <Button type="submit" onSubmit={handleLogin}>
-                    Login
-                  </Button>
-                  <Button type="submit" onClick={handleCreate}>
-                    Create
-                  </Button>
-                </div>
+      {modalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 w-full h-full">
+          <form className="bg-white p-4 rounded">
+            <div className="grid w-full items-center gap-4">
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className={emailError ? "border-red-500" : ""}
+                />
+                {emailError && <p className="text-red-500">{emailError}</p>}
               </div>
-            </form>
-          </div>,
-          document.body
-        )}
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  placeholder="Password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={passwordError ? "border-red-500" : ""}
+                />
+                {passwordError && (
+                  <p className="text-red-500">{passwordError}</p>
+                )}
+              </div>
+              <div className="flex justify-between">
+                <Button type="button" onClick={closeLoginModal}>
+                  Close
+                </Button>
+                <Button type="submit" onSubmit={handleLogin}>
+                  Login
+                </Button>
+                <Button type="submit" onClick={handleCreate}>
+                  Create
+                </Button>
+              </div>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 };
