@@ -1,11 +1,8 @@
-import React, { useState } from "react";
 import ReactDOM from "react-dom";
+import { useState } from "react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-
-// Définition du type d'action
-type Action = "login" | "create";
 
 const LoginModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -27,13 +24,16 @@ const LoginModal = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-
-  const handleSubmit = async (action: Action) => {
-    // Réinitialisation des erreurs
-    setEmailError("");
-    setPasswordError("");
+  {
+    /* 
+  const handleLogin = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
 
     let valid = true;
+    setEmailError("");
+    setPasswordError("");
 
     if (!email) {
       setEmailError("Veuillez remplir le champ email.");
@@ -51,9 +51,7 @@ const LoginModal = () => {
     if (!valid) return;
 
     try {
-      // URL en fonction de l'action
-      const url = action === "login" ? "/api/user" : "/api/user";
-      const response = await fetch(url, {
+      const response = await fetch("http://localhost:5173/api/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,28 +61,60 @@ const LoginModal = () => {
 
       if (response.ok) {
         const data = await response.json();
-        if (action === "login") {
-          console.log("Login successful:", data);
-        } else {
-          console.log("User creation successful:", data);
-        }
+        console.log("Login successful:", data);
         closeLoginModal();
       } else {
-        const errorMessage =
-          action === "login" ? "Login failed" : "User creation failed";
-        console.error(errorMessage, response.statusText);
+        console.error("Login failed:", response.statusText);
       }
     } catch (error) {
       console.error("An error occurred:", error);
     }
   };
+*/
+  }
+  const handleCreate = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
 
-  const handleLogin = async () => {
-    await handleSubmit("login");
-  };
+    let valid = true;
+    setEmailError("");
+    setPasswordError("");
 
-  const handleCreate = async () => {
-    await handleSubmit("create");
+    if (!email) {
+      setEmailError("Veuillez remplir le champ email.");
+      valid = false;
+    } else if (!validateEmail(email)) {
+      setEmailError("Email invalide.");
+      valid = false;
+    }
+
+    if (!password) {
+      setPasswordError("Veuillez remplir le champ mot de passe.");
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    try {
+      const response = await fetch("http://localhost:5173/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("User creation successful:", data);
+        closeLoginModal();
+      } else {
+        console.error("User creation failed:", response.statusText);
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
   };
 
   return (
@@ -128,10 +158,11 @@ const LoginModal = () => {
                   <Button type="button" onClick={closeLoginModal}>
                     Close
                   </Button>
-                  <Button type="button" onClick={handleLogin}>
+                  {/* 
+                  <Button type="submit" onSubmit={handleLogin}>
                     Login
-                  </Button>
-                  <Button type="button" onClick={handleCreate}>
+                  </Button>*/}
+                  <Button type="submit" onClick={handleCreate}>
                     Create
                   </Button>
                 </div>
