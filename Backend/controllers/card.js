@@ -50,9 +50,6 @@ exports.updateCard = (req, res, next) => {
     _id: req.params.id,
     title: req.body.title,
     description: req.body.description,
-    imageUrl: req.body.imageUrl,
-    price: req.body.price,
-    userId: req.body.userId,
   });
   Card.updateOne({ _id: req.params.id }, card)
     .then(() => {

@@ -25,7 +25,7 @@ const LoginModal = () => {
     return emailRegex.test(email);
   };
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     let valid = true;

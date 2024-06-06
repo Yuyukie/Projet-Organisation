@@ -1,7 +1,7 @@
 const express = require("express");
-const auth = require("auth");
 const router = express.Router();
 
+const auth = require("../middelware/auth");
 const cardCtrl = require("../controllers/card");
 
 router.get("/", auth, cardCtrl.findCard);

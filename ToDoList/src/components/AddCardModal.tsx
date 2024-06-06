@@ -9,18 +9,21 @@ export function AddCardModal() {
   const [tasks, setTasks] = useState<{ name: string; description: string }[]>(
     []
   );
+  const [confirmationMessage, setConfirmationMessage] = useState("");
 
   const openTaskModal = () => {
     setModalOpen(true);
+    setConfirmationMessage("");
   };
 
   const closeTaskModal = () => {
     setModalOpen(false);
+    setConfirmationMessage("");
   };
 
   const addTask = async (task: { name: string; description: string }) => {
     try {
-      const response = await fetch("http://localhost:5173/api/cards", {
+      const response = await fetch("/api/cards", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,7 +33,7 @@ export function AddCardModal() {
 
       if (response.ok) {
         setTasks([...tasks, task]);
-        closeTaskModal();
+        setConfirmationMessage("La carte a été enregistrée avec succès !");
       } else {
         console.error("Failed to save task:", response.statusText);
       }
@@ -54,6 +57,11 @@ export function AddCardModal() {
           </>,
           document.body
         )}
+      {confirmationMessage && (
+        <div className="m-auto flex flex-wrap justify-center items-center gap-2">
+          <p className="text-green-500">{confirmationMessage}</p>
+        </div>
+      )}
       <div className="m-auto flex flex-wrap justify-center items-center gap-2">
         {tasks.map((task, index) => (
           <InfoCard key={index} title={task.name} task={task.description} />
