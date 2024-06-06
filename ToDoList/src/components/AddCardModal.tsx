@@ -20,7 +20,7 @@ export function AddCardModal() {
 
   const addTask = async (task: { name: string; description: string }) => {
     try {
-      const response = await fetch("/api/cards", {
+      const response = await fetch("http://localhost:5173/api/cards", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

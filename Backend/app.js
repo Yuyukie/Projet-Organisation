@@ -2,8 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
-const Card = require("./models/Card");
-const User = require("./models/User");
+const cardRoutes = require("./routes/card");
+const userRoutes = require("./routes/user");
 
 mongoose
   .connect(
@@ -30,26 +30,7 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
-app.post("api/Card", (req, res, next) => {
-  delete req.body._id;
-  const card = new Card({
-    ...req.body,
-  });
-  card
-    .save()
-    .then(() => res.status(201).json({ message: "Card enregistré" }))
-    .catch((error) => res.status(400).json({ message: "error" }));
-});
-
-app.post("api/User", (req, res, next) => {
-  delete req.body._id;
-  const user = new User({
-    ...req.body,
-  });
-  user
-    .save()
-    .then(() => res.status(201).json({ message: "user enregistré" }))
-    .catch((error) => res.status(400).json({ message: "error" }));
-});
+app.use("api/card", cardRoutes);
+app.use("api/user", userRoutes);
 
 module.exports = app;
