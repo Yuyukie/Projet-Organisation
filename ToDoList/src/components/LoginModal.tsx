@@ -97,7 +97,7 @@ const LoginModal = () => {
     if (!valid) return;
 
     try {
-      const response = await fetch("http://localhost:5173/api/users", {
+      const response = await fetch("http://localhost:1234/api/user/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
