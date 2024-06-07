@@ -29,8 +29,8 @@ exports.findOneCard = (req, res, next) => {
 exports.createCard = (req, res, next) => {
   const card = new Card({
     title: req.body.title,
-    description: req.body.description,
   });
+
   card
     .save()
     .then(() => {

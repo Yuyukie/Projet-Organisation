@@ -24,8 +24,7 @@ const LoginModal = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-  {
-    /* 
+
   const handleLogin = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -51,7 +50,7 @@ const LoginModal = () => {
     if (!valid) return;
 
     try {
-      const response = await fetch("http://localhost:5173/api/users", {
+      const response = await fetch("http://localhost:1234/api/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,6 +62,8 @@ const LoginModal = () => {
         const data = await response.json();
         console.log("Login successful:", data);
         closeLoginModal();
+        const token = data.token;
+        console.log(token);
       } else {
         console.error("Login failed:", response.statusText);
       }
@@ -70,8 +71,7 @@ const LoginModal = () => {
       console.error("An error occurred:", error);
     }
   };
-*/
-  }
+
   const handleCreate = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -121,7 +121,9 @@ const LoginModal = () => {
     <div>
       <div className="flex justify-center items-center">
         <div>
-          <Button onClick={openLoginModal}>Login</Button>
+          <Button id="login" onClick={openLoginModal}>
+            Login
+          </Button>
         </div>
       </div>
       {modalOpen &&
@@ -158,10 +160,10 @@ const LoginModal = () => {
                   <Button type="button" onClick={closeLoginModal}>
                     Close
                   </Button>
-                  {/* 
+
                   <Button type="submit" onSubmit={handleLogin}>
                     Login
-                  </Button>*/}
+                  </Button>
                   <Button type="submit" onClick={handleCreate}>
                     Create
                   </Button>
