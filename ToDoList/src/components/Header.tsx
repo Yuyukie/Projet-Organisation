@@ -1,12 +1,21 @@
-import LoginModal from "./LoginModal";
+import { useState } from "react";
+import Modal from "./Modal";
+import LoginForm from "./Login";
 
-export default function Header() {
+const App = () => {
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
+
   return (
-    <div className="w-full bg-slate-400 sticky flex">
-      <h1 className="m-2 text-[40px]">My To Do List Forever</h1>
-      <div className="ml-auto mr-4">
-        <LoginModal />
-      </div>
+    <div>
+      <button onClick={openModal}>Login</button>
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <LoginForm onClose={closeModal} />
+      </Modal>
     </div>
   );
-}
+};
+
+export default App;

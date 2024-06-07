@@ -14,7 +14,7 @@ exports.findCard = (req, res, next) => {
 
 exports.findOneCard = (req, res, next) => {
   Card.findOne({
-    _id: req.params.id,
+    selected: req.body.selected,
   })
     .then((card) => {
       res.status(200).json(card);
@@ -29,6 +29,8 @@ exports.findOneCard = (req, res, next) => {
 exports.createCard = (req, res, next) => {
   const card = new Card({
     title: req.body.title,
+    description: req.body.description,
+    selected: req.body.selected, //  selected correspond a la date select dans le calendrier
   });
 
   card
@@ -50,6 +52,7 @@ exports.updateCard = (req, res, next) => {
     _id: req.params.id,
     title: req.body.title,
     description: req.body.description,
+    selected: req.body.selected,
   });
   Card.updateOne({ _id: req.params.id }, card)
     .then(() => {
