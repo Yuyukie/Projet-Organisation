@@ -13,7 +13,6 @@ interface ViewProps {
 const View: React.FC<ViewProps> = ({ onClose, selected }) => {
   const [showViewCardModal, setShowViewCardModal] = useState(false); // State pour contrôler l'affichage de ViewCard
   const [showCardModal, setShowCardModal] = useState(false);
-  const selectedDate = selected; // Stocke la date sélectionnée
 
   const handleCloseCardModal = () => {
     setShowCardModal(false);
@@ -37,7 +36,7 @@ const View: React.FC<ViewProps> = ({ onClose, selected }) => {
       <Modal isOpen={showCardModal} onClose={handleCloseCardModal}>
         <Card
           onClose={handleCloseCardModal}
-          selected={selectedDate}
+          selected={selected}
           onCloseAll={onClose}
         />
       </Modal>

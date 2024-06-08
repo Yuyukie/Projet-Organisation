@@ -12,7 +12,7 @@ const ViewCard: React.FC = () => {
 
   useEffect(() => {
     // Effectuer une requête GET pour récupérer les cartes depuis l'API
-    fetch("http://localhost:1234/api/cards")
+    fetch("http://localhost:1234/api/card")
       .then((response) => response.json())
       .then((data) => {
         setCards(data);
