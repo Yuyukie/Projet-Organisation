@@ -21,12 +21,6 @@ const MyDatePicker = () => {
     setModalOpen(false);
   };
 
-  // Fonction pour fermer toutes les modales
-  const handleCloseAllModals = () => {
-    setModalOpen(false);
-    // Vous pouvez ajouter ici d'autres fonctions pour fermer d'autres modales si nécessaire
-  };
-
   // Rendu du composant MyDatePicker
   return (
     <div className="flex flex-col justify-center items-center">
@@ -40,7 +34,7 @@ const MyDatePicker = () => {
       {/* Modal pour afficher les détails de la date sélectionnée */}
       <Modal isOpen={modalOpen} onClose={handleCloseModal}>
         {/* Passer la date formatée à View */}
-        <View onClose={handleCloseAllModals} selected={selected} />
+        <View onClose={handleCloseModal} selected={selected} />
       </Modal>
     </div>
   );
