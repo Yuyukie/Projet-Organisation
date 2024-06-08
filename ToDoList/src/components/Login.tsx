@@ -38,13 +38,18 @@ const LoginForm: React.FC<LoginProps> = ({ onClose }) => {
 
     if (!valid) return;
 
+    const data = {
+      email,
+      password,
+    };
+
     try {
       const response = await fetch("http://localhost:1234/api/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify(data),
       });
 
       if (response.ok) {
