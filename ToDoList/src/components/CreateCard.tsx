@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { Context as MyContext } from "./Context"; // Import du contexte
 
 // Définition des types pour les props de Card
 interface CardProps {
@@ -12,6 +13,12 @@ const Card: React.FC<CardProps> = ({ selected, onCloseAll }) => {
   // State pour stocker le titre et la description de la carte
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+
+  // Utilisation du contexte
+  const context = useContext(MyContext);
+
+  // Extraction de la fonction pour mettre à jour le contexte
+  const { setData } = context!; // Utilisation du ! pour indiquer que le contexte existe toujours
 
   // Fonction appelée lors de la soumission du formulaire
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -45,6 +52,10 @@ const Card: React.FC<CardProps> = ({ selected, onCloseAll }) => {
         setTitle(""); // Réinitialise le titre
         setDescription(""); // Réinitialise la description
         onCloseAll(); // Ferme toutes les modales après la création de la carte
+
+        // Mettre à jour le contexte avec les nouvelles données
+        const newData = await response.json(); // Récupère les données de la nouvelle carte
+        setData((prevData) => [...prevData, newData]); // Ajoute la nouvelle carte aux données existantes
       } else {
         console.error("Failed to save card:", response.statusText); // Affiche une erreur si la création de la carte échoue
       }
